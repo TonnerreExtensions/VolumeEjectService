@@ -18,7 +18,7 @@ func listVolumes(name: String) -> [Volume] {
   FileManager.default
     .mountedVolumeURLs(includingResourceValuesForKeys: [.volumeIsInternalKey],
                        options: .skipHiddenVolumes)?
-    .filter { try! $0.resourceValues(forKeys: [.volumeIsInternalKey]).volumeIsInternal == false }
+    .filter { try! $0.resourceValues(forKeys: [.volumeIsInternalKey]).volumeIsInternal != true }
     .filter { name.isEmpty || $0.lastPathComponent.contains(name) }
     .map { Volume(title: $0.lastPathComponent, subtitle: $0.path, id: $0.path) }
   ?? []
