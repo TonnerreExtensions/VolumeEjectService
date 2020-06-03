@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		146B2D0924880A9C00866830 /* VolumeEjectService */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VolumeEjectService; sourceTree = BUILT_PRODUCTS_DIR; };
 		146B2D0C24880A9C00866830 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		146B2D1324884F6400866830 /* profile.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = profile.yaml; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				146B2D0C24880A9C00866830 /* main.swift */,
+				146B2D1324884F6400866830 /* profile.yaml */,
 			);
 			path = VolumeEjectService;
 			sourceTree = "<group>";

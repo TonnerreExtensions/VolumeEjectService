@@ -1,0 +1,5 @@
+title: Volume Eject
+subtitle: This extension provides service that eject all or certain ejectable volumes mounted on your mac
+keyword: eject
+mode: strict
+icon: eject.png
