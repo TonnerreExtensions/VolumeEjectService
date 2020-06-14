@@ -26,7 +26,11 @@ func listVolumes(name: String) -> [Volume] {
 
 func eject(path: String) {
   for path in path.split(separator: "\n") {
-    NSWorkspace.shared.unmountAndEjectDevice(atPath: String(path))
+    do {
+      try NSWorkspace.shared.unmountAndEjectDevice(at: URL(fileURLWithPath: String(path)))
+    } catch {
+      print(error)
+    }
   }
 }
 
