@@ -45,11 +45,6 @@ func help() {
   exit(0)
 }
 
-struct Response<S: Encodable>: Encodable {
-  let provider: String
-  let services: [S]
-}
-
 let arguments = CommandLine.arguments.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
 if arguments.count < 2 || arguments.count > 3 {
   help()
@@ -58,19 +53,17 @@ if arguments.count < 2 || arguments.count > 3 {
 private let OUTPUT_ENV_KEY = "OUTPUT"
 private let IDENTIFIER_ENV_KEY = "IDENTIFIER"
 
-func write<S: Encodable>(response: Response<S>, to output: String) throws {
+func write<S: Encodable>(response: S) throws {
   let encoder = JSONEncoder()
   let json = try encoder.encode(response)
-  let outputFile = try FileHandle(forWritingTo: URL(fileURLWithPath: output))
-  outputFile.write(json)
+  FileHandle.standardOutput.write(json)
+  FileHandle.standardOutput.write(Data("\n".utf8))
 }
 
 if arguments[1] == "-q" || arguments[1] == "--query" {
-  let output = ProcessInfo.processInfo.environment[OUTPUT_ENV_KEY]!
-  let identifier = ProcessInfo.processInfo.environment[IDENTIFIER_ENV_KEY]!
   let volumes = listVolumes(name: arguments.count >= 3 ? arguments[2].trimmingCharacters(in: .whitespacesAndNewlines) : "")
   let services: [Volume]
-  if volumes.isEmpty {
+  if volumes.count <= 1 {
     services = volumes
   } else {
     let ejectAllId = volumes.map { $0.id }.joined(separator: "\n")
@@ -78,8 +71,9 @@ if arguments[1] == "-q" || arguments[1] == "--query" {
                        subtitle: "Eject all ejectable volumes listed below",
                        id: ejectAllId)] + volumes
   }
-  let response = Response(provider: identifier, services: services)
-  try! write(response: response, to: output)
+  for service in services {
+    try! write(response: service)
+  }
 } else if arguments[1] == "-x" || arguments[1] == "-X"
   || arguments[1] == "--execute" || arguments[1] == "--alter-execute" {
   eject(path: arguments[2])
